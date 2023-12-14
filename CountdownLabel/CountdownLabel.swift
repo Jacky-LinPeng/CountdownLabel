@@ -72,6 +72,12 @@ public class CountdownLabel: LTMorphingLabel {
             }
         }
     }
+    
+    @objc
+    public func configAnimationType(type: CountdownEffect) {
+        animationType = type
+    }
+    
     public var timeFormat = "HH:mm:ss"
     public var thens = [TimeInterval: CountdownExecution]()
     public var countdownAttributedText: CountdownAttributedText! {
@@ -115,9 +121,9 @@ public class CountdownLabel: LTMorphingLabel {
         setup()
     }
     
-    public convenience init(frame: CGRect, minutes: TimeInterval) {
+    public convenience init(frame: CGRect, seconds: TimeInterval) {
         self.init(frame: frame)
-        setCountDownTime(minutes: minutes)
+        setCountDownTime(seconds: seconds)
     }
     
     public convenience init(frame: CGRect, date: NSDate) {
@@ -135,24 +141,28 @@ public class CountdownLabel: LTMorphingLabel {
     }
     
     // MARK: - Setter Methods
-    public func setCountDownTime(minutes: TimeInterval) {
-        setCountDownTime(fromDate: NSDate(), minutes: minutes)
+    @objc
+    public func setCountDownTime(seconds: TimeInterval) {
+        setCountDownTime(fromDate: NSDate(), seconds: seconds)
     }
     
-    public func setCountDownTime(fromDate: NSDate, minutes: TimeInterval) {
+    @objc
+    public func setCountDownTime(fromDate: NSDate, seconds: TimeInterval) {
         self.fromDate = fromDate
         
-        targetTime = minutes
-        currentTime = minutes
-        diffDate = date1970.addingTimeInterval(minutes)
+        targetTime = seconds
+        currentTime = seconds
+        diffDate = date1970.addingTimeInterval(seconds)
         
         updateLabel()
     }
     
+    @objc
     public func setCountDownDate(targetDate: NSDate) {
         setCountDownDate(fromDate: NSDate(), targetDate: targetDate)
     }
     
+    @objc
     public func setCountDownDate(fromDate: NSDate, targetDate: NSDate) {
         self.fromDate = fromDate
         
@@ -191,6 +201,7 @@ public class CountdownLabel: LTMorphingLabel {
 
 // MARK: - Public
 extension CountdownLabel {
+    @objc
     public func start(completion: ( () -> () )? = nil) {
         if !isPaused {
             // current date should be setted at the time of the counter's starting, or the time will be wrong (just a few seconds) after the first time of pausing.
@@ -213,6 +224,7 @@ extension CountdownLabel {
         countdownDelegate?.countdownStarted?()
     }
     
+    @objc
     public func pause(completion: (() -> ())? = nil) {
         if paused {
             return
@@ -235,6 +247,7 @@ extension CountdownLabel {
         countdownDelegate?.countdownPaused?()
     }
     
+    @objc
     public func cancel(completion: (() -> ())? = nil) {
         text = dateFormatter.string(from: date1970.addingTimeInterval(0) as Date)
         dispose()
@@ -246,6 +259,7 @@ extension CountdownLabel {
         countdownDelegate?.countdownCancelled?()
     }
     
+    @objc
     public func addTime(time: TimeInterval) {
         currentTime = time + currentTime
         diffDate = date1970.addingTimeInterval(currentTime)
@@ -365,7 +379,8 @@ extension CountdownLabel {
     }
 }
 
-public enum CountdownEffect {
+@objc
+public enum CountdownEffect: Int {
     case Anvil
     case Burn
     case Evaporate
