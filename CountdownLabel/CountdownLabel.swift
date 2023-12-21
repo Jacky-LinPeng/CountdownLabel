@@ -58,7 +58,8 @@ public class CountdownLabel: LTMorphingLabel {
     public var isFinished: Bool {
         return finished
     }
-    
+
+    @objc
     public weak var countdownDelegate: CountdownLabelDelegate?
     
     // user settings
