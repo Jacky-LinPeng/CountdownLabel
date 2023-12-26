@@ -78,7 +78,8 @@ public class CountdownLabel: LTMorphingLabel {
     public func configAnimationType(type: CountdownEffect) {
         animationType = type
     }
-    
+
+    @objc
     public var timeFormat = "HH:mm:ss"
     public var thens = [TimeInterval: CountdownExecution]()
     public var countdownAttributedText: CountdownAttributedText! {
