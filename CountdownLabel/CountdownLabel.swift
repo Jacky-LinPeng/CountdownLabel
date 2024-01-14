@@ -346,7 +346,8 @@ extension CountdownLabel {
         pausedDate = nil
         paused = false
     }
-    
+
+    @objc
     func updateTimer() {
         disposeTimer()
         
@@ -361,14 +362,16 @@ extension CountdownLabel {
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
         counting = true
     }
-    
+
+    @objc
     func disposeTimer() {
         if timer != nil {
             timer.invalidate()
             timer = nil
         }
     }
-    
+
+    @objc
     func dispose() {
         // reset
         pausedDate = nil
